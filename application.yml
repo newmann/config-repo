@@ -1,0 +1,77 @@
+# Server settings
+server:
+  port: 8020
+
+spring:
+  #spring cloud client
+  application:
+    name: user
+  # DataSource Config
+  datasource:
+    name: UserService
+    url: jdbc:mysql://localhost:3306/microservice?useUnicode=true&characterEncoding=UTF-8&autoReconnect=true
+    username: root
+    password: sa
+    driver-class-name: com.mysql.jdbc.Driver
+    type: com.alibaba.druid.pool.DruidDataSource
+    filters: stat
+    maxActive: 20
+    initialSize: 1
+    maxWait: 60000
+    minIdle: 1
+    timeBetweenEvictionRunsMillis: 60000
+    minEvictableIdleTimeMillis: 300000
+    validationQuery: select 'x'
+    testWhileIdle: true
+    testOnBorrow: false
+    testOnReturn: false
+    poolPreparedStatements: true
+    maxOpenPreparedStatements: 20
+  profiles:
+    active: dev
+    default: dev
+
+redis:
+  pool:
+    maxWaitMillis: 15000
+    #最大能够保持idel状态的对象数
+    maxIdle: 1000
+    maxTotal: 1000
+#当调用borrow Object方法时，是否进行有效性检查
+    testOnBorrow: true
+#当调用return Object方法时，是否进行有效性检查
+    testOnReturn: true
+  host: localhost
+  port: 6379
+  pass:
+
+logging:
+  path: ./log
+  config: classpath:logback-boot.xml
+
+#项目通用配置
+global:
+  page:
+    pageSize: 20
+  token:
+    TimeoutClean: 604800 #登录的token有效时间
+
+#spring cloud register server
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:8000/eureka/
+
+#actutor显示内容
+info:
+  app:
+    name: @project.name@ #从pom.xml中获取
+    description: @project.description@
+    version: @project.version@
+    spring-boot-version: @project.parent.version@
+  contact:
+    email: newmannhu@qq.com
+    phone: 0755-82890987
+
+endpoints:
+  sensitive: false #所有的都不需要密码
